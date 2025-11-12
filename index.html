@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌈 Guía Interactiva Prejardín | Colegio Colombo Británico Envigado</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f8ff; 
+            color: #333333;
+            scroll-behavior: smooth; 
+        }
+        .header-bg {
+            background-color: #FFFFFF;
+            border-bottom: 4px solid #00447C; 
+        }
+        .main-color {
+            color: #00447C; /* Azul principal del CBE */
+        }
+        .main-color-bg {
+            background-color: #00447C;
+        }
+        .secondary-color-bg {
+            background-color: #FFC107; /* Amarillo/naranja de acento del CBE */
+        }
+        .secondary-color-text {
+            color: #FFC107;
+        }
+        .accent-color {
+            color: #4CAF50; /* Verde de contraste */
+        }
+        .light-blue-bg {
+            background-color: #B0C4DE; /* Azul claro del CBE */
+        }
+        .light-blue-text {
+            color: #B0C4DE;
+        }
+
+        /* Estilos de Navegación */
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s, transform 0.2s;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+            color: #555555;
+            padding: 0.5rem 0; /* Padding vertical para un mejor clic */
+        }
+        .nav-link.active {
+            color: #00447C;
+            border-bottom-color: #FFC107;
+            transform: translateY(-2px);
+        }
+        .nav-link:hover {
+            color: #00447C;
+            border-bottom-color: #B0C4DE;
+        }
+        .content-card {
+            background-color: #FFFFFF;
+            border-radius: 1rem;
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #E0E0E0;
+            transition: all 0.3s ease-in-out;
+        }
+        .content-card:hover {
+            transform: translateY(-3px) scale(1.005); /* Ligeramente más grande al hover */
+            box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.12);
+        }
+        .content-card.hover-scale:hover { /* Clase específica para escala más pronunciada */
+            transform: scale(1.03) translateY(-5px);
+            box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Estilos para el Flip Card */
+        .flip-container {
+            perspective: 1000px;
+            width: 100%;
+            height: 350px;
+            cursor: pointer;
+        }
+        .flipper {
+            transition: 0.8s;
+            transform-style: preserve-3d;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .flip-container.hover .flipper {
+            transform: rotateY(180deg);
+        }
+        .front, .back {
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 1rem;
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 2px solid #B0C4DE;
+        }
+        .front {
+            z-index: 2;
+            background: linear-gradient(135deg, #FFFFFF 50%, #f0f8ff 100%);
+        }
+        .back {
+            transform: rotateY(180deg);
+            background-color: #00447C;
+            color: white;
+            border: 2px solid #FFC107;
+        }
+        .back p {
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+        }
+        
+        /* Estilos para la Línea de Tiempo */
+        .timeline-item {
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+        .timeline-item:hover {
+            transform: scale(1.03);
+        }
+        .timeline-item.active {
+            border-color: #00447C !important;
+            box-shadow: 0 0 0 3px #00447C40;
+        }
+
+        /* Estilos para Acordeón (Estrategias y FAQs) */
+        .accordion-header {
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            user-select: none; /* Evita selección de texto al hacer clic */
+        }
+        .accordion-header:hover {
+            transform: translateX(5px);
+        }
+        .accordion-icon {
+            transition: transform 0.3s;
+        }
+        .accordion-header.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            transition: max-height 0.5s ease-in-out;
+        }
+
+        /* Estilos para Galería de Imágenes (Modal/Lightbox) */
+        .gallery-image {
+            cursor: zoom-in;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            object-fit: cover;
+        }
+        .gallery-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            padding-top: 60px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 80%;
+            max-height: 90%;
+            border-radius: 1rem;
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+        @keyframes zoom {
+            from {transform:scale(0.1)} 
+            to {transform:scale(1)}
+        }
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="min-h-screen">
+        <header class="header-bg sticky top-0 z-50 shadow-lg">
+            <div id="scroll-progress-container" class="w-full h-1 light-blue-bg">
+                <div id="scroll-progress-bar" class="h-full secondary-color-bg" style="width: 0%; transition: width 0.1s linear;"></div>
+            </div>
+
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-auto py-3"> 
+                    
+                    <div class="flex items-center"> 
+                        <div class="flex-shrink-0">
+                            <img 
+                                src="https://cbe.edu.co/wp-content/uploads/2024/12/colombo_britanico_envigado_logo.png" 
+                                alt="Logo Colegio Colombo Británico Envigado" 
+                                class="h-12 w-12 rounded-full shadow-md object-contain p-1 transform hover:scale-105 transition duration-300"
+                                style="background-color: #FFFFFF;"
+                            > 
+                        </div>
+                        <div class="ml-2 hidden sm:block"> 
+                            <h1 class="text-lg font-extrabold main-color leading-tight">Guía Interactiva</h1>
+                            <p class="text-xs text-gray-600 font-medium leading-none">Prejardín</p>
+                        </div>
+                    </div>
+                    
+                    <nav class="hidden md:flex md:space-x-4">
+                        <a href="#inicio" class="nav-link active text-md">🏡 Inicio</a>
+                        <a href="#adaptacion" class="nav-link text-md">🚀 Adaptación</a>
+                        <a href="#estrategias" class="nav-link text-md">💡 Estrategias</a>
+                        <a href="#vida-escolar" class="nav-link text-md">🍎 Vida Escolar</a>
+                        <a href="#galeria" class="nav-link text-md">📸 Galería</a>
+                        <a href="#equipo" class="nav-link text-md">🤝 Nuestro Equipo</a>
+                        <a href="#faqs" class="nav-link text-md">❓ Preguntas Frecuentes</a>
+                        <a href="#recursos" class="nav-link text-md">📚 Recursos</a>
+                    </nav>
+                    
+                    <div class="md:hidden w-3/5 sm:w-1/2">
+                        <select id="mobile-nav" class="block w-full rounded-full border-gray-300 shadow-lg text-sm p-2 bg-white main-color font-semibold">
+                            <option value="#inicio">🏡 Inicio</option>
+                            <option value="#adaptacion">🚀 Adaptación</option>
+                            <option value="#estrategias">💡 Estrategias</option>
+                            <option value="#vida-escolar">🍎 Vida Escolar</option>
+                            <option value="#galeria">📸 Galería</option>
+                            <option value="#equipo">🤝 Nuestro Equipo</option>
+                            <option value="#faqs">❓ Preguntas Frecuentes</option>
+                            <option value="#recursos">📚 Recursos</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+            
+            <section id="inicio" class="page-section text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-extrabold main-color mb-4">¡Bienvenidos a la aventura de Prejardín! 🎉</h2>
+                <p class="max-w-4xl mx-auto text-xl text-gray-700 font-light mb-12">Esta guía interactiva los acompañará en el comienzo de esta <strong>gran aventura</strong> en el Colegio <strong>Colombo Británico Envigado</strong>. ¡Hagamos de esta transición una experiencia llena de <strong>alegría</strong> y <strong>descubrimientos</strong>!</p>
+                
+                <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="content-card p-6 border-l-4 border-[#FFC107] flex flex-col items-center hover-scale">
+                        <span class="text-5xl mb-3">🌱</span>
+                        <h3 class="text-xl font-bold main-color mb-2">Una Nueva Etapa</h3>
+                        <p class="text-gray-600">Celebren este hito. Prepárense para un mundo de aprendizaje, amistad y crecimiento. ¡Verán grandes avances!</p>
+                    </div>
+                    
+                    <div id="flip-card-welcome" class="flip-container mx-auto">
+                        <div class="flipper">
+                            <div class="front">
+                                <span class="text-6xl mb-3 main-color">💖</span>
+                                <h3 class="text-2xl font-extrabold main-color mb-2"><strong>Mensaje de Bienvenida</strong></h3>
+                                <p class="text-gray-700">Haz clic o toca para ver el mensaje de nuestra directora de Preescolar.</p>
+                                <span class="mt-4 text-sm secondary-color-text font-bold"><i class="fas fa-hand-pointer mr-2"></i>¡Hazme Flip!</span>
+                            </div>
+                            <div class="back">
+                                <span class="text-6xl mb-3 text-white">🌟</span>
+                                <h3 class="text-2xl font-extrabold text-[#FFC107] mb-2"><strong>¡Un Hogar Lejos del Hogar!</strong></h3>
+                                <p class="text-white font-light text-lg">"Cada niño trae una luz única. Estamos aquí para nutrir esa luz con amor, respeto y un ambiente bilingüe estimulante, sentando las bases para su futuro."</p>
+                                <p class="mt-4 font-bold text-[#FFC107]">- Dirección de Preescolar CBE Envigado</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-card p-6 border-l-4 border-[#00447C] flex flex-col items-center hover-scale">
+                        <span class="text-5xl mb-3">🗣️</span>
+                        <h3 class="text-xl font-bold main-color mb-2">Inmersión al Inglés</h3>
+                        <p class="text-gray-600">Nuestro ambiente bilingüe abrirá un universo de oportunidades, fomentando una mentalidad global desde pequeños.</p>
+                    </div>
+                </div>
+
+                <div class="mt-16 p-8 content-card bg-[#E6F7FF] border-t-8 border-b-8 border-[#B0C4DE] transform-gpu hover:shadow-xl">
+                    <h3 class="text-3xl font-bold main-color mb-4 text-center">✨ La <strong>Magia del Prejardín</strong> ✨</h3>
+                    <p class="text-lg text-gray-700 text-center max-w-3xl mx-auto">En Prejardín, cada día es una oportunidad para explorar, crear y crecer. A través del juego, la música, el arte y las interacciones, sus hijos desarrollarán habilidades esenciales mientras descubren el placer de aprender. Nuestro equipo pedagógico está comprometido con un <strong>enfoque holístico</strong> que atiende las necesidades emocionales, sociales, cognitivas y físicas de cada pequeño.</p>
+                </div>
+            </section>
+            
+            <hr class="my-16 border-t-4 border-[#FFC107] opacity-50 rounded-full">
+
+            <section id="adaptacion" class="page-section mb-20">
+                <h2 class="text-4xl md:text-5xl font-extrabold main-color text-center mb-4">El Proceso de Adaptación: Un Viaje Paso a Paso 🗺️</h2>
+                <p class="max-w-4xl mx-auto text-xl text-gray-700 font-light text-center mb-12">La adaptación es única para cada familia. <strong>¡Hagan clic</strong> en cada etapa para descubrir consejos y recomendaciones de nuestros expertos!</p>
+                
+                <div id="timeline" class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-0 relative">
+                    <div class="w-full md:w-1/4 p-2">
+                        <div id="timeline-item-1" class="timeline-item active content-card p-4 text-center border-4 border-[#FFC107] bg-yellow-50/70 hover:shadow-lg">
+                            <span class="text-3xl block mb-1">🏡</span>
+                            <h3 class="font-bold text-lg main-color">1. Antes de Empezar</h3>
+                            <p class="text-sm text-gray-500">Preparando el terreno</p>
+                        </div>
+                    </div>
+                    <div class="hidden md:block w-12 h-1 bg-gradient-to-r from-[#FFC107] to-[#4CAF50] rounded-full"></div>
+                    <div class="w-full md:w-1/4 p-2">
+                        <div id="timeline-item-2" class="timeline-item content-card p-4 text-center border-4 border-transparent bg-white hover:shadow-lg">
+                            <span class="text-3xl block mb-1">🏃‍♀️</span>
+                            <h3 class="font-bold text-lg main-color">2. La Primera Semana</h3>
+                            <p class="text-sm text-gray-500">Nuevas caras y rutinas</p>
+                        </div>
+                    </div>
+                    <div class="hidden md:block w-12 h-1 bg-gradient-to-r from-[#4CAF50] to-[#00447C] rounded-full"></div>
+                    <div class="w-full md:w-1/4 p-2">
+                        <div id="timeline-item-3" class="timeline-item content-card p-4 text-center border-4 border-transparent bg-white hover:shadow-lg">
+                            <span class="text-3xl block mb-1">🧠</span>
+                            <h3 class="font-bold text-lg main-color">3. El Primer Mes</h3>
+                            <p class="text-sm text-gray-500">Consolidando la confianza</p>
+                        </div>
+                    </div>
+                    <div class="hidden md:block w-12 h-1 bg-gradient-to-r from-[#00447C] to-[#B0C4DE] rounded-full"></div>
+                    <div class="w-full md:w-1/4 p-2">
+                        <div id="timeline-item-4" class="timeline-item content-card p-4 text-center border-4 border-transparent bg-white hover:shadow-lg">
+                            <span class="text-3xl block mb-1">🥳</span>
+                            <h3 class="font-bold text-lg main-color">4. Familias Adaptadas</h3>
+                            <p class="text-sm text-gray-500">¡Lo logramos!</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="timeline-content" class="mt-8 content-card p-6 md:p-8 min-h-[280px] border-4 border-dashed border-[#00447C] transform-gpu hover:shadow-xl">
+                    </div>
+
+                <div class="mt-12 text-center">
+                    <img 
+                        src="https://cbe.edu.co/wp-content/uploads/2022/10/preescolar_envigado_medellin_antioquia-1024x682.jpg" 
+                        alt="Docente de preescolar dando la bienvenida a los niños" 
+                        class="w-full max-w-[980px] h-[650px] object-cover mx-auto rounded-xl shadow-lg border-4 border-[#4CAF50] transform-gpu hover:scale-105 transition duration-300">
+                    <p class="text-gray-500 text-sm mt-4">Nuestras <strong>docentes</strong> reciben con alegría a los pequeños, listos para un nuevo día de exploración y aprendizaje.</p>
+                </div>
+            </section>
+
+            <hr class="my-16 border-t-4 border-[#00447C] opacity-50 rounded-full">
+
+            <section id="estrategias" class="page-section mb-20">
+                <h2 class="text-4xl md:text-5xl font-extrabold main-color text-center mb-4">Estrategias Clave para el Éxito 💡</h2>
+                <p class="max-w-4xl mx-auto text-xl text-gray-700 font-light text-center mb-12">Herramientas prácticas para apoyar el desarrollo en áreas fundamentales. <strong>¡Toca para expandir</strong> y ver los consejos! 👇</p>
+                
+                <div class="space-y-4 max-w-5xl mx-auto">
+                    <div class="content-card overflow-hidden transform-gpu hover:shadow-xl">
+                        <div class="accordion-header p-5 flex justify-between items-center bg-[#FFC107] text-white rounded-t-xl hover:opacity-90 transition duration-200" data-target="content-autonomia">
+                            <h3 class="text-2xl font-bold">✨ Fomentando la Autonomía</h3>
+                            <i class="fas fa-chevron-down accordion-icon text-white"></i>
+                        </div>
+                        <div id="content-autonomia" class="accordion-content max-h-0 transition-all duration-500 ease-in-out overflow-hidden p-6 bg-white">
+                            <p class="mb-4 text-gray-800 font-medium">La autonomía es la base de la confianza. Aquí cómo cultivarla:</p>
+                            <ul class="space-y-3 text-gray-700 text-lg">
+                                <li class="flex items-start"><span class="mr-3 text-2xl accent-color">✅</span><span>Asignar pequeñas <strong>responsabilidades</strong> en casa (guardar un juguete, poner la servilleta). Refuerza su sentido de capacidad.</span></li>
+                                <li class="flex items-start"><span class="mr-3 text-2xl accent-color">✅</span><span>Permitir que elijan su ropa (entre dos opciones) para que practiquen la <strong>toma de decisiones</strong> y expresen su personalidad.</span></li>
+                                <li class="flex items-start"><span class="mr-3 text-2xl accent-color">✅</span><span>Enseñarles a ponerse y quitarse los zapatos y la chaqueta solos. ¡Con <strong>calma y paciencia</strong>, cada intento cuenta!</span></li>
+                                <li class="flex items-start"><span class="mr-3 text-2xl accent-color">✅</span><span>Preparar juntos la maleta del colegio la noche anterior, creando una <strong>rutina pre-escolar</strong> que reduce la ansiedad.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content-card overflow-hidden transform-gpu hover:shadow-xl">
+                        <div class="accordion-header p-5 flex justify-between items-center bg-[#4CAF50] text-white hover:opacity-90 transition duration-200" data-target="content-bilinguismo">
+                            <h3 class="text-2xl font-bold">🇬🇧 Apoyo al Bilingüismo</h3>
+                            <i class="fas fa-chevron-down accordion-icon text-white"></i>
+                        </div>
+                        <div id="content-bilinguismo" class="accordion-content max-h-0 transition-all duration-500 ease-in-out overflow-hidden p-6 bg-white">
+                            <p class="mb-4 text-gray-800 font-medium">Un mundo de idiomas se abre. Aquí cómo apoyar este viaje:</p>
+                            <ul class="space-y-3 text-gray-700 text-lg">
+                                <li class="flex items-start"><span class="mr-3 text-2xl accent-color">🎵</span><span>Escuchar canciones infantiles en inglés en casa o en el carro. ¡Es muy <strong>efectivo y divertido</strong>!</span></li>
+                                <li class="flex items-start"><span class="mr-3 text-2xl accent-color">📺</span><span>Ver dibujos animados cortos en inglés. La <strong>inmersión en contextos naturales</strong> es el mejor maestro.</span></li>
+                                <li class="flex items-start"><span class="mr-3 text-2xl accent-color">🚫</span><span><strong>NO presionar</strong> para que traduzca. El aprendizaje de un segundo idioma es un <strong>proceso natural y sin presiones</strong>.</span></li>
+                                <li class="flex items-start"><span class="mr-3 text-2xl accent-color">🤩</span><span>Mostrar <strong>entusiasmo por el inglés</strong>. Su actitud positiva es contagiosa y motivadora.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="content-card overflow-hidden transform-gpu hover:shadow-xl">
+                        <div class="accordion-header p-5 flex justify-between items-center bg-[#00447C] text-white rounded-b-xl hover:opacity-90 transition duration-200" data-target="content-emociones">
+                            <h3 class="text-2xl font-bold">💚 Gestión de Emociones</h3>
+                            <i class="fas fa-chevron-down accordion-icon text-white"></i>
+                        </div>
+                        <div id="content-emociones" class="accordion-content max-h-0 transition-all duration-500 ease-in-out overflow-hidden p-6 bg-white">
+                            <p class="mb-4 text-gray-800 font-medium">Ayudarles a comprender y expresar lo que sienten es fundamental:</p>
+                            <ul class="space-y-3 text-gray-700 text-lg">
+                                <li class="flex items-start"><span class="mr-3 text-2xl accent-color">🫂</span><span><strong>Validar sus sentimientos</strong>: "Entiendo que te sientas triste/nervioso". <strong>No minimicen sus emociones</strong>, ayúdenles a nombrarlas.</span></li>
+                                <li class="flex items-start"><span class="mr-3 text-2xl accent-color">👋</span><span>Crear un <strong>"ritual de despedida"</strong> corto y positivo (un abrazo y un "te veo luego"). La <strong>predictibilidad</strong> les da seguridad.</span></li>
+                                <li class="flex items-start"><span class="mr-3 text-2xl accent-color">📖</span><span>Leer <strong>cuentos sobre el primer día de clases</strong> o sobre cómo manejar las emociones. Esto normaliza sus experiencias.</span></li>
+                                <li class="flex items-start"><span class="mr-3 text-2xl accent-color">🧘</span><span>Mantener la <strong>calma en las despedidas</strong>. Su tranquilidad les da seguridad a ellos y les enseña a regularse.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12 text-center">
+                    <img 
+                        src="https://cbe.edu.co/wp-content/uploads/2022/06/preescolar_bilingue_huerta12.jpeg" 
+                        alt="Niños en el preescolar cultivando en la huerta escolar" 
+                        class="w-full max-w-[980px] h-[650px] object-cover mx-auto rounded-xl shadow-lg border-4 border-[#FFC107] transform-gpu hover:scale-105 transition duration-300">
+                    <p class="text-gray-500 text-sm mt-4">Aprendizaje práctico y significativo: Explorando la naturaleza en nuestra <strong>huerta escolar</strong>, fomentando la curiosidad y la conciencia ambiental.</p>
+                </div>
+            </section>
+
+            <hr class="my-16 border-t-4 border-[#4CAF50] opacity-50 rounded-full">
+            
+            <section id="vida-escolar" class="page-section mb-20">
+                <h2 class="text-4xl md:text-5xl font-extrabold main-color text-center mb-4">La Vida en el Colegio ⏰</h2>
+                <p class="max-w-4xl mx-auto text-xl text-gray-700 font-light text-center mb-12">Una visión general de nuestras clases y canales de comunicación clave.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                    
+                    <div class="content-card p-6 md:p-8 bg-white border-l-4 border-l-[#FFC107] transform-gpu hover:shadow-xl">
+                        <h3 class="text-2xl font-bold mb-6 text-center main-color">CLASES SEGÚN DIMENSIONES DEL DESARROLLO 🎨</h3>
+                        
+                        <div class="space-y-4">
+                            
+                            <div class="flex items-start p-3 bg-gray-50 rounded-lg border-l-4 border-l-[#00447C]">
+                                <span class="text-xl mr-4 text-[#00447C] font-extrabold">1️⃣</span>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">COMUNICATIVA (ESPAÑOL) 🗣️</h4>
+                                    <p class="text-sm text-gray-600">Desarrollo del lenguaje oral, pre-escritura y amor por la lectura en español.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start p-3 bg-gray-50 rounded-lg border-l-4 border-l-[#4CAF50]">
+                                <span class="text-xl mr-4 text-[#4CAF50] font-extrabold">2️⃣</span>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">COMUNICATIVA (INGLÉS) 🇬🇧</h4>
+                                    <p class="text-sm text-gray-600">Inmersión bilingüe a través del juego, canciones y actividades interactivas.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start p-3 bg-gray-50 rounded-lg border-l-4 border-l-[#FFC107]">
+                                <span class="text-xl mr-4 text-[#FFC107] font-extrabold">3️⃣</span>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">COGNITIVA 🧠</h4>
+                                    <p class="text-sm text-gray-600">Introducción a conceptos matemáticos básicos, exploración del medio y lógica.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start p-3 bg-gray-50 rounded-lg border-l-4 border-l-[#00447C]">
+                                <span class="text-xl mr-4 text-[#00447C] font-extrabold">4️⃣</span>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">EXPRESIÓN CORPORAL 🤸</h4>
+                                    <p class="text-sm text-gray-600">Juegos y movimientos que fomentan el esquema corporal y la coordinación.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start p-3 bg-gray-50 rounded-lg border-l-4 border-l-[#4CAF50]">
+                                <span class="text-xl mr-4 text-[#4CAF50] font-extrabold">5️⃣</span>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">MÚSICA 🎵</h4>
+                                    <p class="text-sm text-gray-600">Estimulación auditiva, ritmo y expresión creativa a través de instrumentos y canto.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start p-3 bg-gray-50 rounded-lg border-l-4 border-l-[#FFC107]">
+                                <span class="text-xl mr-4 text-[#FFC107] font-extrabold">6️⃣</span>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">EDUCACIÓN FÍSICA ⚽</h4>
+                                    <p class="text-sm text-gray-600">Actividades motoras gruesas que promueven la salud física y el trabajo en equipo.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start p-3 bg-gray-50 rounded-lg border-l-4 border-l-[#00447C]">
+                                <span class="text-xl mr-4 text-[#00447C] font-extrabold">7️⃣</span>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">ARTE 🖼️</h4>
+                                    <p class="text-sm text-gray-600">Exploración de texturas, colores y técnicas para el desarrollo de la creatividad y motricidad fina.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start p-3 bg-gray-50 rounded-lg border-l-4 border-l-[#4CAF50]">
+                                <span class="text-xl mr-4 text-[#4CAF50] font-extrabold">8️⃣</span>
+                                <div>
+                                    <h4 class="font-bold text-gray-800">SOCIOAFECTIVA / ÉTICA / ESPIRITUAL 🫂</h4>
+                                    <p class="text-sm text-gray-600">Desarrollo de valores, autoconocimiento, empatía y convivencia respetuosa.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="content-card p-6 md:p-8 bg-[#E6F7FF] transform-gpu hover:shadow-xl"> 
+                        <h3 class="text-2xl font-bold mb-6 main-color">📢 Comunicación Familia-Colegio</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <span class="text-3xl mr-4 accent-color">💻</span>
+                                <div>
+                                    <h4 class="font-bold text-xl text-gray-800">CLASSROOM (GOOGLE)</h4>
+                                    <p class="text-gray-600">Plataforma <strong>central</strong> para el material pedagógico, envío de tareas, anuncios de clase y recursos semanales.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="text-3xl mr-4 accent-color">📧</span>
+                                <div>
+                                    <h4 class="font-bold text-xl text-gray-800">CORREO ELECTRÓNICO INSTITUCIONAL</h4>
+                                    <p class="text-gray-600">Para comunicaciones y consultas <strong>no urgentes</strong>. Recibirán el contacto de la <strong>docente</strong> titular al inicio del año.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="text-3xl mr-4 accent-color">📊</span>
+                                <div>
+                                    <h4 class="font-bold text-xl text-gray-800">ENTREGA DE INFORMES TRIMESTRALES</h4>
+                                    <p class="text-gray-600">Espacio formal y personal con la <strong>docente</strong> para conversar a profundidad sobre el <strong>desempeño y progreso</strong> del estudiante.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="text-3xl mr-4 accent-color">🌐</span>
+                                <div>
+                                    <h4 class="font-bold text-xl text-gray-800">PÁGINA WEB Y REDES SOCIALES INSTITUCIONALES</h4>
+                                    <p class="text-gray-600">Fuente <strong>oficial</strong> para circulares, eventos y noticias generales del colegio.</p>
+                                    <div class="mt-2 text-sm space-y-1">
+                                        <p class="text-gray-500">Web: <a href="https://www.cbe.edu.co" class="text-[#00447C] hover:underline">www.cbe.edu.co</a></p>
+                                        <p class="text-gray-500">Instagram: <a href="https://www.instagram.com/colombobritanicoenvigado" class="text-[#00447C] hover:underline">@colombobritanicoenvigado</a></p>
+                                        <p class="text-gray-500">Facebook: <a href="https://www.facebook.com/ColomboBritanicoEnvigado" class="text-[#00447C] hover:underline">/ColomboBritanicoEnvigado</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12 text-center">
+                    <img 
+                        src="https://i.imgur.com/3499lOB.jpeg" 
+                        alt="Docente de preescolar dando una clase en inglés" 
+                        class="w-full max-w-[980px] h-[650px] object-cover mx-auto rounded-xl shadow-lg border-4 border-[#00447C] transform-gpu hover:scale-105 transition duration-300">
+                    <p class="text-gray-500 text-sm mt-4">Nuestra <strong>docente</strong> de inglés lidera una actividad lúdica en el salón, inmersión total en el idioma para un aprendizaje <strong>natural y efectivo</strong>.</p>
+                </div>
+                
+                <div class="mt-16 p-8 content-card bg-gradient-to-r from-[#B0C4DE] to-[#E6F7FF] border-l-8 border-[#4CAF50] transform-gpu hover:shadow-xl">
+                    <h3 class="text-3xl font-bold main-color mb-4 text-center">💡 Una Cita para Reflexionar</h3>
+                    <p id="inspirational-quote" class="text-xl italic text-gray-800 text-center max-w-4xl mx-auto">"La educación no es llenar un cubo, sino encender un fuego."</p>
+                    <p id="quote-author" class="text-md font-semibold text-gray-600 text-center mt-4">- William Butler Yeats</p>
+                </div>
+            </section>
+
+            <hr class="my-16 border-t-4 border-[#B0C4DE] opacity-50 rounded-full">
+
+            <section id="galeria" class="page-section mb-20">
+                <h2 class="text-4xl md:text-5xl font-extrabold main-color text-center mb-4">Galería de Momentos 📸</h2>
+                <p class="max-w-4xl mx-auto text-xl text-gray-700 font-light text-center mb-12">Explora algunos momentos mágicos que vivimos cada día en Prejardín.</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <img src="https://images.unsplash.com/photo-1520004435558-0050720462c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTc2NXwwfDF8c2VhcmNofDEwfHxwcmVzY2hvb2wlMjBhcnQlMjBjbGFzc3Jvb218ZW58MHx8fHwxNzE3NTY4OTA2fDA&lib=rb-4.0.3&q=80&w=1080" alt="Niños pintando" class="content-card gallery-image w-full h-48 rounded-xl cursor-pointer hover:shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1508920405230-011e40c0f4df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTc2NXwwfDF8c2VhcmNofDMwfHxwcmVzY2hvb2wlMjBsZWFybmluZyUyMGdhbWVzfGVufDB8fHx8MTcwOTMxNDIyNHww&lib=rb-4.0.3&q=80&w=1080" alt="Niños jugando con bloques" class="content-card gallery-image w-full h-48 rounded-xl cursor-pointer hover:shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1628126767426-5b48166d4822?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTc2NXwwfDF8c2VhcmNofDE1fHxwcmVzY2hvb2wlMjByZWFkaW5nfGVufDB8fHx8MTcwOTMxNDI0OXww&lib=rb-4.0.3&q=80&w=1080" alt="Docente leyendo un cuento a los niños" class="content-card gallery-image w-full h-48 rounded-xl cursor-pointer hover:shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1503756234563-74d6c4dfb626?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTc2NXwwfDF8c2VhcmNofDEzfHxwcmVzY2hvb2wlMjBvdXRkb29yJTIwcGxheXxlbnwwfHx8fDE3MDkzMTQyNDl8MA&lib=rb-4.0.3&q=80&w=1080" alt="Niños jugando al aire libre" class="content-card gallery-image w-full h-48 rounded-xl cursor-pointer hover:shadow-xl">
+                </div>
+            </section>
+
+            <hr class="my-16 border-t-4 border-[#FFC107] opacity-50 rounded-full">
+
+            <section id="equipo" class="page-section mb-20">
+                <h2 class="text-4xl md:text-5xl font-extrabold main-color text-center mb-4">Nuestro Equipo 🤝</h2>
+                <p class="max-w-4xl mx-auto text-xl text-gray-700 font-light text-center mb-12">Conozca a las <strong>docentes</strong>, especialistas y directivas dedicadas al desarrollo de su hijo.</p>
+                
+                <div class="space-y-10">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        
+                        <div class="content-card p-4 md:p-6 text-center hover-scale border-t-4 border-[#FFC107]">
+                            <div class="w-32 h-32 md:w-40 md:h-40 mx-auto mb-4 overflow-hidden rounded-full shadow-lg border-4 border-[#B0C4DE]">
+                                <img src="https://i.imgur.com/cyIQhC9.jpeg" alt="Foto de Ms. Isabel Salazar" class="w-full h-full object-cover object-top">
+                            </div>
+                            <h3 class="text-xl font-bold main-color mb-1">MS. ISABEL SALAZAR</h3>
+                            <p class="text-md font-semibold secondary-color-text">DIRECTORA DE PREESCOLAR</p>
+                        </div>
+
+                        <div class="content-card p-4 md:p-6 text-center hover-scale border-t-4 border-[#FFC107]">
+                            <div class="w-32 h-32 md:w-40 md:h-40 mx-auto mb-4 overflow-hidden rounded-full shadow-lg border-4 border-[#B0C4DE]">
+                                <img src="https://i.imgur.com/s03lLx5.jpeg" alt="Foto de Mr. Alejandro Muñoz" class="w-full h-full object-cover object-top">
+                            </div>
+                            <h3 class="text-xl font-bold main-color mb-1">MR. ALEJANDRO MUÑOZ</h3>
+                            <p class="text-md font-semibold secondary-color-text">CONSEJERO DE PREESCOLAR</p>
+                        </div>
+                        
+                        <div class="content-card p-4 md:p-6 text-center hover-scale border-t-4 border-[#FFC107]">
+                            <div class="w-32 h-32 md:w-40 md:h-40 mx-auto mb-4 overflow-hidden rounded-full shadow-lg border-4 border-[#B0C4DE]">
+                                <img src="https://i.imgur.com/ffUyBwV.jpeg" alt="Foto de Ms. Laura Gil" class="w-full h-full object-cover object-top">
+                            </div>
+                            <h3 class="text-xl font-bold main-color mb-1">MS. LAURA GIL</h3>
+                            <p class="text-md font-semibold secondary-color-text">ORIENTADORA DE CONVIVENCIA</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        
+                        <div class="content-card p-4 md:p-6 text-center hover-scale border-t-4 border-[#00447C]">
+                            <div class="w-32 h-32 md:w-40 md:h-40 mx-auto mb-4 overflow-hidden rounded-full shadow-lg border-4 border-[#B0C4DE]">
+                                <img src="https://i.imgur.com/HvSOYGp.jpeg" alt="Foto de Ms. Catalina Montoya" class="w-full h-full object-cover object-top">
+                            </div>
+                            <h3 class="text-xl font-bold main-color mb-1">MS. CATALINA MONTOYA</h3>
+                            <p class="text-md font-semibold secondary-color-text"><strong>DOCENTE</strong> PREJARDÍN A</p>
+                        </div>
+
+                        <div class="content-card p-4 md:p-6 text-center hover-scale border-t-4 border-[#00447C]">
+                            <div class="w-32 h-32 md:w-40 md:h-40 mx-auto mb-4 overflow-hidden rounded-full shadow-lg border-4 border-[#B0C4DE]">
+                                <img src="https://i.imgur.com/WlvUyg8.jpeg" alt="Foto de Ms. Manuela Rivera" class="w-full h-full object-cover object-top">
+                            </div>
+                            <h3 class="text-xl font-bold main-color mb-1">MS. MANUELA RIVERA</h3>
+                            <p class="text-md font-semibold secondary-color-text"><strong>DOCENTE</strong> PREJARDÍN B</p>
+                        </div>
+
+                        <div class="content-card p-4 md:p-6 text-center hover-scale border-t-4 border-[#00447C]">
+                            <div class="w-32 h-32 md:w-40 md:h-40 mx-auto mb-4 overflow-hidden rounded-full shadow-lg border-4 border-[#B0C4DE]">
+                                <img src="https://i.imgur.com/pXdy07A.jpeg" alt="Foto de Ms. Mileidy Cano" class="w-full h-full object-cover object-top">
+                            </div>
+                            <h3 class="text-xl font-bold main-color mb-1">MS. MILEIDY CANO</h3>
+                            <p class="text-md font-semibold secondary-color-text"><strong>DOCENTE</strong> PREJARDÍN C</p>
+                        </div>
+
+                        <div class="content-card p-4 md:p-6 text-center hover-scale border-t-4 border-[#00447C]">
+                            <div class="w-32 h-32 md:w-40 md:h-40 mx-auto mb-4 overflow-hidden rounded-full shadow-lg border-4 border-[#B0C4DE]">
+                                <img src="https://i.imgur.com/ENg9NK6.jpeg" alt="Foto de Ms. Kelly Gutierrez" class="w-full h-full object-cover object-top">
+                            </div>
+                            <h3 class="text-xl font-bold main-color mb-1">MS. KELLY GUTIERREZ</h3>
+                            <p class="text-md font-semibold secondary-color-text"><strong>DOCENTE</strong> PREJARDÍN D</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="my-16 border-t-4 border-[#4CAF50] opacity-50 rounded-full">
+
+            <section id="faqs" class="page-section mb-20">
+                <h2 class="text-4xl md:text-5xl font-extrabold main-color text-center mb-4">Preguntas Frecuentes ❓</h2>
+                <p class="max-w-4xl mx-auto text-xl text-gray-700 font-light text-center mb-12">Resolvemos las dudas <strong>más comunes</strong> sobre la vida en Prejardín.</p>
+                
+                <div class="space-y-4 max-w-5xl mx-auto">
+                    <div class="content-card overflow-hidden">
+                        <div class="accordion-header p-5 flex justify-between items-center bg-[#B0C4DE] text-[#00447C] hover:bg-[#A0B0CC] transition duration-200" data-target="faq-horario">
+                            <h3 class="text-xl font-bold">¿Cuál es el horario de Prejardín?</h3>
+                            <i class="fas fa-chevron-down accordion-icon text-[#00447C]"></i>
+                        </div>
+                        <div id="faq-horario" class="accordion-content max-h-0 transition-all duration-500 ease-in-out overflow-hidden p-6 bg-white">
+                            <p class="text-gray-700">El horario de la jornada escolar es de <strong>7:30 a.m. a 12:30 p.m.</strong> para asegurar un <strong>equilibrio</strong> entre el aprendizaje y el descanso de los más pequeños. Por favor, sean <strong>puntuales</strong> en la recogida.</p>
+                        </div>
+                    </div>
+                    <div class="content-card overflow-hidden">
+                        <div class="accordion-header p-5 flex justify-between items-center bg-[#B0C4DE] text-[#00447C] hover:bg-[#A0B0CC] transition duration-200" data-target="faq-lonchera">
+                            <h3 class="text-xl font-bold">¿Qué debo empacar en la lonchera?</h3>
+                            <i class="fas fa-chevron-down accordion-icon text-[#00447C]"></i>
+                        </div>
+                        <div id="faq-lonchera" class="accordion-content max-h-0 transition-all duration-500 ease-in-out overflow-hidden p-6 bg-white">
+                            <p class="text-gray-700">Recomendamos alimentos <strong>saludables</strong> y <strong>fáciles de manipular</strong>: frutas picadas, yogur, sándwiches o wraps integrales, y abundante agua. Eviten dulces y alimentos que contengan <strong>frutos secos</strong> debido a posibles alergias.</p>
+                        </div>
+                    </div>
+                    <div class="content-card overflow-hidden">
+                        <div class="accordion-header p-5 flex justify-between items-center bg-[#B0C4DE] text-[#00447C] hover:bg-[#A0B0CC] transition duration-200" data-target="faq-comunicacion">
+                            <h3 class="text-xl font-bold">¿Cómo me comunico con la <strong>docente</strong>?</h3>
+                            <i class="fas fa-chevron-down accordion-icon text-[#00447C]"></i>
+                        </div>
+                        <div id="faq-comunicacion" class="accordion-content max-h-0 transition-all duration-500 ease-in-out overflow-hidden p-6 bg-white">
+                            <p class="text-gray-700">La <strong>Agenda Escolar</strong> es el canal diario principal para notas rápidas. Para temas más extensos o reuniones, por favor soliciten una cita por medio del correo electrónico de la <strong>docente</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="my-16 border-t-4 border-[#00447C] opacity-50 rounded-full">
+
+            <section id="recursos" class="page-section mb-20">
+                <h2 class="text-4xl md:text-5xl font-extrabold main-color text-center mb-4">Recursos Adicionales 📚</h2>
+                <p class="max-w-4xl mx-auto text-xl text-gray-700 font-light text-center mb-12">Materiales de apoyo y enlaces de interés para padres de Prejardín.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="content-card p-6 text-center border-l-4 border-l-[#FFC107] hover-scale">
+                        <i class="fas fa-book text-4xl secondary-color-text mb-3"></i>
+                        <h3 class="text-xl font-bold main-color mb-2">Lista de Cuentos Recomendados</h3>
+                        <p class="text-gray-600">Cuentos que apoyan la autonomía y la gestión emocional.</p>
+                        <a href="#" class="mt-3 inline-block font-semibold text-[#00447C] hover:underline">Ver Lista →</a>
+                    </div>
+                    <div class="content-card p-6 text-center border-l-4 border-l-[#4CAF50] hover-scale">
+                        <i class="fas fa-video text-4xl accent-color mb-3"></i>
+                        <h3 class="text-xl font-bold main-color mb-2">Videos de Inmersión</h3>
+                        <p class="text-gray-600">Juegos y videos cortos para practicar inglés en casa.</p>
+                        <a href="#" class="mt-3 inline-block font-semibold text-[#00447C] hover:underline">Ver Recursos →</a>
+                    </div>
+                    <div class="content-card p-6 text-center border-l-4 border-l-[#B0C4DE] hover-scale">
+                        <i class="fas fa-file-pdf text-4xl light-blue-text mb-3"></i>
+                        <h3 class="text-xl font-bold main-color mb-2">Reglamento General</h3>
+                        <p class="text-gray-600">Documento oficial con políticas y procedimientos del Preescolar.</p>
+                        <a href="#" class="mt-3 inline-block font-semibold text-[#00447C] hover:underline">Descargar PDF →</a>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="main-color-bg text-white py-8 mt-10">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <p class="text-lg font-semibold">&copy; 2025 Colegio <strong>Colombo Británico Envigado</strong>. Todos los derechos reservados.</p>
+                <p class="text-sm mt-2 text-gray-300">Construyendo el futuro con alegría y excelencia bilingüe.</p>
+            </div>
+        </footer>
+    </div>
+    
+    <div id="gallery-modal" class="modal">
+        <span class="close-button">&times;</span>
+        <img class="modal-content" id="modal-image">
+    </div>
+
+    <script>
+        // --- 1. Datos y Estado Inicial ---
+
+        // Datos para la Línea de Tiempo de Adaptación
+        const timelineData = {
+            'timeline-item-1': {
+                icon: '🏡',
+                title: '1. Antes de Empezar',
+                description: '<p class="text-gray-700 leading-relaxed"><strong class="main-color">Rutinas en Casa:</strong> Establezcan horarios de sueño y comidas similares a los del colegio con 1-2 semanas de anticipación. La <strong>predictibilidad</strong> calma la ansiedad.</p><p class="mt-3 text-gray-700 leading-relaxed"><strong class="main-color">Charla Positiva:</strong> Hablen del colegio como un lugar divertido para hacer amigos y aprender cosas nuevas. Eviten frases como "<strong>tienes que ir</strong>" o "<strong>si no lloras...</strong>".</p><p class="mt-3 text-gray-700 leading-relaxed"><strong class="main-color">Objeto de Transición:</strong> Si lo permiten en casa, eligen un objeto (muñeco, manta) que pueda acompañarlo los primeros días, si el colegio lo autoriza. Les da <strong>seguridad</strong>.</p>'
+            },
+            'timeline-item-2': {
+                icon: '🏃‍♀️',
+                title: '2. La Primera Semana',
+                description: '<p class="text-gray-700 leading-relaxed"><strong class="main-color">Despedidas Cortas:</strong> Un abrazo y un beso <strong>rápido</strong> son lo mejor. No se demoren, aunque llore. Regresar al ver la lágrima <strong>confunde al niño</strong>.</p><p class="mt-3 text-gray-700 leading-relaxed"><strong class="main-color">Confianza en la Docente:</strong> Muestren <strong>absoluta confianza</strong> en el equipo <strong>docente</strong>. Ellos son sus <strong>mayores aliados</strong> en este proceso.</p><p class="mt-3 text-gray-700 leading-relaxed"><strong class="main-color">Mantener la Calma:</strong> Las lágrimas son normales. No expresen su <strong>propia ansiedad</strong>; una actitud tranquila les transmite <strong>seguridad</strong>.</p>'
+            },
+            'timeline-item-3': {
+                icon: '🧠',
+                title: '3. El Primer Mes',
+                description: '<p class="text-gray-700 leading-relaxed"><strong class="main-color">Preguntas Abiertas:</strong> En lugar de "<strong>¿Cómo te fue?</strong>", pregunten: "<strong>¿Qué juego nuevo descubriste hoy?</strong>" o "<strong>¿Quién te leyó un cuento?</strong>". Fomenta una conversación <strong>más rica</strong>.</p><p class="mt-3 text-gray-700 leading-relaxed"><strong class="main-color">Respetar el Ritmo:</strong> Algunos días serán <strong>mejores que otros</strong>. La adaptación <strong>no es lineal</strong>. Sean flexibles y <strong>pacientes</strong>.</p><p class="mt-3 text-gray-700 leading-relaxed"><strong class="main-color">Celebrar Logros:</strong> Reconozcan <strong>cada pequeño avance</strong>: "¡Qué <strong>valiente eres</strong> por ir a jugar solo!" o "¡Me encanta que hayas empacado tu lonchera!".</p>'
+            },
+            'timeline-item-4': {
+                icon: '🥳',
+                title: '4. Familias Adaptadas',
+                description: '<p class="text-gray-700 leading-relaxed"><strong class="main-color">Monitoreo Constante:</strong> Sigan usando la agenda para mantener una comunicación <strong>fluida</strong>. Su <strong>participación activa</strong> sigue siendo esencial.</p><p class="mt-3 text-gray-700 leading-relaxed"><strong class="main-color">Foco en el Aprendizaje:</strong> Ahora, el énfasis pasa de la despedida a las <strong>maravillas del aprendizaje</strong>. Pregunten sobre los <strong>conceptos</strong> que están viendo en clase.</p><p class="mt-3 text-gray-700 leading-relaxed"><strong class="main-color">Disfruten:</strong> Disfruten esta etapa de <strong>crecimiento</strong>. ¡Verán cómo su hijo <strong>florece</strong> en un ambiente bilingüe y enriquecedor!</p>'
+            }
+        };
+
+        // Citas Inspiradoras para rotar
+        const inspirationalQuotes = [
+            { quote: "La educación no es llenar un cubo, sino encender un fuego.", author: "William Butler Yeats" },
+            { quote: "Jugar es el trabajo de la infancia.", author: "Jean Piaget" },
+            { quote: "Un niño puede enseñar tres cosas a un adulto: a estar contento sin motivo, a estar siempre ocupado con algo y a exigir con todas sus fuerzas aquello que desea.", author: "Paulo Coelho" },
+            { quote: "Sembrar en los niños ideas buenas, aunque no las entiendan... los años se encargarán de descifrarla en su entendimiento y de hacerlas florecer en su corazón.", author: "María Montessori" }
+        ];
+
+        // --- 2. Funciones de Control ---
+
+        // FUNCIÓN: Calcula y actualiza el progreso basado en el scroll
+        function scrollProgress() {
+            // Altura total del contenido que se puede desplazar
+            const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            // Posición de desplazamiento actual
+            const scrolled = window.scrollY;
+            
+            // Calcula el porcentaje, asegurando que no exceda el 100%
+            let progress = 0;
+            if (totalHeight > 0) {
+                progress = (scrolled / totalHeight) * 100;
+            }
+
+            // Aplica el ancho a la barra de progreso
+            const progressBar = document.getElementById('scroll-progress-bar');
+            if (progressBar) {
+                progressBar.style.width = `${progress}%`;
+            }
+        }
+
+        // Función para manejar la navegación y la activación de enlaces
+        function handleNavigation(event) {
+            let targetId;
+            if (event.target.tagName === 'A') {
+                targetId = event.target.getAttribute('href').substring(1);
+            } else if (event.target.tagName === 'SELECT') {
+                targetId = event.target.value.substring(1);
+            } else {
+                return;
+            }
+
+            // Actualizar la clase 'active' en la navegación de escritorio
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${targetId}`) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Desplazamiento suave
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Función para alternar el acordeón (Estrategias y FAQs)
+        function toggleAccordion(event) {
+            const header = event.currentTarget;
+            const targetId = header.getAttribute('data-target');
+            const content = document.getElementById(targetId);
+            const icon = header.querySelector('.accordion-icon');
+
+            const isActive = header.classList.contains('active');
+
+            // Cerrar todos los demás acordeones
+            document.querySelectorAll('.accordion-header').forEach(h => {
+                if (h !== header) {
+                    h.classList.remove('active');
+                    const otherContent = document.getElementById(h.getAttribute('data-target'));
+                    if (otherContent) {
+                        otherContent.style.maxHeight = null;
+                        h.querySelector('.accordion-icon').style.transform = 'rotate(0deg)';
+                    }
+                }
+            });
+
+            // Abrir/Cerrar el acordeón actual
+            if (isActive) {
+                header.classList.remove('active');
+                content.style.maxHeight = null;
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                header.classList.add('active');
+                // Calcula el scrollHeight para expandir a la altura correcta
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Función para mostrar el contenido de la Línea de Tiempo
+        function showTimelineContent(itemId) {
+            const contentDiv = document.getElementById('timeline-content');
+            const data = timelineData[itemId];
+            
+            // Actualizar el contenido
+            contentDiv.innerHTML = `
+                <div class="flex items-center mb-4 light-blue-text">
+                    <span class="text-4xl mr-3">${data.icon}</span>
+                    <h3 class="text-2xl font-extrabold main-color">${data.title}</h3>
+                </div>
+                <div class="text-lg text-gray-700 space-y-3">${data.description}</div>
+            `;
+            
+            // Actualizar el estado 'active' en los ítems de la línea de tiempo
+            document.querySelectorAll('.timeline-item').forEach(item => {
+                item.classList.remove('active');
+                item.classList.remove('border-[#00447C]');
+                item.classList.add('border-transparent');
+                item.classList.remove('bg-yellow-50/70');
+                item.classList.add('bg-white');
+            });
+
+            const activeItem = document.getElementById(itemId);
+            activeItem.classList.add('active');
+            activeItem.classList.remove('border-transparent');
+            activeItem.classList.add('border-[#00447C]');
+            activeItem.classList.add('bg-yellow-50/70');
+        }
+
+        // Inicializar el modal (lightbox) de la galería
+        function setupModal() {
+            // Crear el elemento modal si no existe
+            let modal = document.getElementById("gallery-modal");
+            
+            const span = modal.querySelector(".close-button");
+            const modalImg = document.getElementById("modal-image");
+
+            // Evento para abrir el modal
+            document.querySelectorAll('.gallery-image').forEach(img => {
+                img.onclick = function(){
+                    modal.style.display = "block";
+                    modalImg.src = this.src;
+                    modalImg.alt = this.alt;
+                }
+            });
+
+            // Evento para cerrar el modal
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+            modal.onclick = function(event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+
+        // Rotar la cita inspiradora
+        function rotateQuote() {
+            const quoteElement = document.getElementById('inspirational-quote');
+            const authorElement = document.getElementById('quote-author');
+            if (quoteElement && authorElement) {
+                const randomIndex = Math.floor(Math.random() * inspirationalQuotes.length);
+                const quote = inspirationalQuotes[randomIndex];
+                quoteElement.textContent = `"${quote.quote}"`;
+                authorElement.textContent = `- ${quote.author}`;
+            }
+        }
+        
+        // --- 3. Inicialización de Eventos y Componentes ---
+        
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 3.1. Navegación (Escritorio y Móvil)
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', handleNavigation);
+            });
+            document.getElementById('mobile-nav')?.addEventListener('change', handleNavigation);
+
+            // 3.2. Flip Card (Bienvenida)
+            document.getElementById('flip-card-welcome')?.addEventListener('click', (event) => {
+                document.getElementById('flip-card-welcome').classList.toggle('hover');
+            });
+
+            // 3.3. Línea de Tiempo (Adaptación)
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    showTimelineContent(item.id);
+                });
+            });
+            // Mostrar contenido inicial de la línea de tiempo
+            if (timelineItems.length > 0) {
+                showTimelineContent(timelineItems[0].id);
+            }
+
+            // 3.4. Acordeones (Estrategias y FAQs)
+            document.querySelectorAll('.accordion-header').forEach(header => {
+                header.addEventListener('click', toggleAccordion);
+            });
+
+            // 3.5. Galería (Modal)
+            setupModal();
+
+            // 3.6. Cita Inspiradora
+            rotateQuote();
+
+            // 3.7. Activar la barra de progreso de scroll
+            window.addEventListener('scroll', scrollProgress);
+            scrollProgress(); // Ejecutar al cargar para asegurar que el 0% se muestre
+
+        });
+    </script>
+    </body>
+</html>
